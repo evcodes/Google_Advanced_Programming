@@ -14,42 +14,34 @@ def decompress(s):
             elif s[i].isdigit():
                 j = i
                 num = ""
-
                 j = s.index("[", i)
-                numbers.append( int (s[i:j]))
-                print(numbers)
+                numbers.append(int (s[i:j]))
                 i = j-1
-              
-            
-            
+
             # in this case we need to keep track of open brackets.
             elif s[i] == "[":
                 brackets.append(s[i])
 
-            i+=1
-        
-        
+        # running into a closing bracket
+        elif s[i] == "]": 
 
-        elif s[i] == "]": # build things
-            if len(brackets) > 1 :
+            # if we have seen more than opening bracket, 
+            # build the final string iteratively
+            if len(brackets) > 1 : 
                 temp = ("".join(characters) * numbers.pop())
                 characters = []
                 characters.append(temp)
                 brackets.pop()
-
-
+            
+            # only one more opening bracket, final string
             elif len(brackets) == 1:
                 final_string += ("".join(characters) * numbers.pop())
                 characters = []
-            i+=1
+        i+=1
+  
+    return final_string
 
-                
-        
-    
-    print(final_string)
-
-decompress('3[a]')
-decompress('3[abc]4[ab]c')
-decompress('4[3[a]b]')
-
-decompress('12[ab]')
+print(decompress('3[a]'))
+print(decompress('3[abc]4[ab]c'))
+print(decompress('4[3[a]b]'))
+print(decompress('12[ab]'))
